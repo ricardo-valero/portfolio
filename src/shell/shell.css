@@ -1,0 +1,128 @@
+.shell {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6) var(--space-16);
+}
+
+.shell-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-12);
+}
+
+.shell-name {
+  font-size: var(--text-hero);
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: var(--tracking-tight);
+}
+
+.shell-headline {
+  font-size: var(--text-lg);
+  color: var(--ink-muted);
+}
+
+.shell-summary {
+  font-size: var(--text-sm);
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+.shell-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  font-size: var(--text-sm);
+}
+
+.shell-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.shell-switcher {
+  display: inline-flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--paper-raised);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+}
+
+.shell-download {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+  padding: calc(var(--space-2) + var(--space-1)) var(--space-4);
+  background: var(--paper-raised);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+  transition: color 150ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shell-download:hover {
+    color: var(--ink-strong);
+  }
+}
+
+.shell-switch {
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ink-muted);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition:
+    color 150ms var(--ease-out),
+    background-color 150ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+.shell-switch:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shell-switch:hover {
+    color: var(--ink-strong);
+  }
+}
+
+.shell-switch[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--paper-raised);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-switch {
+    transition: none;
+  }
+  .shell-switch:active {
+    transform: none;
+  }
+}
+
+@media print {
+  /* page margins come from the PDF itself (they repeat on every page,
+     unlike CSS padding) — the shell adds nothing on top */
+  .shell {
+    max-width: none;
+    padding: 0;
+  }
+  /* view switcher and download button are screen-only chrome */
+  .shell-actions {
+    display: none;
+  }
+}

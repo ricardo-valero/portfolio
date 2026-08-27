@@ -1,0 +1,175 @@
+.document {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.document-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.document-company {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--paper-raised);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+}
+
+.document-company-name {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.document-company-name a {
+  color: inherit;
+}
+
+.document-company-name a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.document-role {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.document-role-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.document-role-header h4 {
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.document-dates {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.document-project {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--border-hairline);
+}
+
+.document-project-name {
+  font-weight: 500;
+  color: var(--ink-strong);
+}
+
+.document-client {
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.document-project ul {
+  padding-left: 1.2em;
+  color: var(--ink);
+}
+
+.document-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* chip fill weight encodes kind: language filled, framework tinted,
+   engine/platform outlined */
+.document-tech-item {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-2);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.document-tech-item.is-language {
+  background: var(--accent);
+  color: var(--paper-raised);
+}
+
+.document-tech-item.is-engine {
+  background: transparent;
+  border-color: var(--border-hairline);
+  color: var(--ink-muted);
+}
+
+.document-education {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-6);
+  background: var(--paper-raised);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+}
+
+.document-note {
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+}
+
+.document-skills {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.document-skill-row {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.document-skill-row dt {
+  font-weight: 700;
+  color: var(--ink-strong);
+}
+
+.document-skill-row dd {
+  margin: 0;
+}
+
+@media (max-width: 540px) {
+  .document-skill-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+}
+
+@media print {
+  /* whole cards stay together when they fit a page; Chromium ignores the
+     hint for cards taller than a page, where .document-project takes over */
+  .document-company,
+  .document-project,
+  .document-education,
+  .document-skill-row {
+    break-inside: avoid;
+  }
+  .document-role-header,
+  .document-company-name,
+  .document-section > .eyebrow {
+    break-after: avoid;
+  }
+}

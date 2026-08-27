@@ -1,0 +1,73 @@
+/**
+ * Tech-kind catalog: drives the visual distinction on tech chips.
+ * Within the single-accent design system, kind maps to fill weight:
+ * language = filled, framework/library = tinted, engine/platform = outlined.
+ */
+export type TechKind = "language" | "framework" | "engine"
+
+const KINDS: Record<string, TechKind> = {
+  // languages
+  TypeScript: "language",
+  JavaScript: "language",
+  Python: "language",
+  Ruby: "language",
+  Elixir: "language",
+  "C#": "language",
+  PHP: "language",
+  SQL: "language",
+  VBScript: "language",
+  MATLAB: "language",
+  "Ladder Logic": "language",
+
+  // frameworks & libraries
+  Rails: "framework",
+  Phoenix: "framework",
+  Laravel: "framework",
+  "Next.js": "framework",
+  React: "framework",
+  Svelte: "framework",
+  ".NET": "framework",
+  EntityFramework: "framework",
+  Razor: "framework",
+  Express: "framework",
+  Fastify: "framework",
+  tRPC: "framework",
+  DrizzleORM: "framework",
+  Prisma: "framework",
+  Effect: "framework",
+  SolidJS: "framework",
+  dlt: "framework",
+  SQLMesh: "framework",
+  dbt: "framework",
+  REST: "framework",
+  GraphQL: "framework",
+  gRPC: "framework",
+  OpenProtocol: "framework",
+  ODBC: "framework",
+
+  // engines, platforms & infrastructure
+  "Node.js": "engine",
+  Bun: "engine",
+  Deno: "engine",
+  PostgreSQL: "engine",
+  MariaDB: "engine",
+  MSSQL: "engine",
+  SQLite: "engine",
+  libSQL: "engine",
+  BigQuery: "engine",
+  Metabase: "engine",
+  AWS: "engine",
+  GCP: "engine",
+  Cloudflare: "engine",
+  Docker: "engine",
+  Nix: "engine",
+  NixOS: "engine",
+  Terraform: "engine",
+  "GitLab CI": "engine",
+  "GitHub Actions": "engine",
+  Indusoft: "engine",
+  "Honeywell PLC": "engine",
+  "Rockwell PLC": "engine",
+}
+
+export const techKind = (name: string): TechKind => KINDS[name] ?? "framework"

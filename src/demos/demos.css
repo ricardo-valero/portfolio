@@ -1,0 +1,427 @@
+/* Demo stage — bounded vignette; markup shows the FINAL state by default.
+   Rendered as a replay <button> (or a plain figure under reduced motion). */
+.demo-stage {
+  aspect-ratio: 5 / 2;
+  max-height: 160px;
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--paper);
+  border: 1px solid var(--border-hairline);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  contain: content;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+
+button.demo-stage {
+  cursor: pointer;
+  transition:
+    border-color 150ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+button.demo-stage:active {
+  transform: scale(0.99);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button.demo-stage:hover {
+    border-color: var(--accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.demo-stage {
+    transition: none;
+  }
+  button.demo-stage:active {
+    transform: none;
+  }
+}
+
+.demo-stage-canvas {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.demo-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* rate-shop */
+.demo-rateshop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.demo-rateshop-parcel {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  background: var(--accent-soft);
+}
+
+.demo-rateshop-rows {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.demo-rateshop-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.demo-rateshop-line {
+  flex: none;
+  width: 24px;
+  height: 2px;
+  background: var(--border-hairline);
+  transform-origin: left center;
+}
+
+.demo-rateshop-quote {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 0 var(--space-2);
+  border: 1px solid var(--border-hairline);
+  border-radius: 999px;
+  color: var(--ink-muted);
+}
+
+.demo-rateshop-quote.is-best {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper-raised);
+}
+
+/* pipeline */
+.demo-pipeline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+.demo-pipeline-node {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-2) var(--space-1);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--accent-soft);
+}
+
+.demo-pipeline-node .demo-label {
+  color: var(--accent);
+}
+
+.demo-pipeline-track {
+  flex: none;
+  position: relative;
+  width: 20px;
+  height: 2px;
+  background: var(--border-hairline);
+}
+
+.demo-pipeline-dot {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  /* transient actor — not part of the final-state diagram */
+  opacity: 0;
+}
+
+/* dashboard */
+.demo-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.demo-dashboard-chart {
+  width: 100%;
+  height: 56px;
+}
+
+.demo-dashboard-chart polyline {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.demo-dashboard-chips {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.demo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--border-hairline);
+  border-radius: 999px;
+  color: var(--ink-muted);
+}
+
+.demo-chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* terminal */
+.demo-terminal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.demo-terminal-prompt {
+  color: var(--accent);
+}
+
+.demo-terminal-line {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  min-width: 0;
+}
+
+.demo-terminal-cmd {
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.demo-terminal-ok {
+  margin-left: auto;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+}
+
+/* form-flow */
+.demo-formflow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.demo-formflow-row {
+  display: grid;
+  grid-template-columns: 5rem 1fr 1rem;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.demo-formflow-field {
+  position: relative;
+  height: 10px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--paper-raised);
+}
+
+.demo-formflow-fill {
+  position: absolute;
+  inset: 1px;
+  background: var(--accent-soft);
+  border-radius: 2px;
+  transform-origin: left center;
+}
+
+.demo-formflow-check {
+  font-size: var(--text-xs);
+  color: var(--accent);
+}
+
+.demo-formflow-scan {
+  position: relative;
+  height: 12px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ink-muted) 0 2px,
+    transparent 2px 6px
+  );
+  opacity: 0.5;
+}
+
+/* ladder — rungs between two rails; flow overlay energizes each rung */
+.demo-ladder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 0 var(--space-2);
+  border-left: 2px solid var(--ink-muted);
+  border-right: 2px solid var(--ink-muted);
+}
+
+.demo-ladder-row {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.demo-ladder-rung {
+  position: relative;
+  height: 2px;
+  background: var(--border-hairline);
+}
+
+.demo-ladder-flow {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform-origin: left center;
+}
+
+.demo-ladder-contact {
+  position: absolute;
+  left: 40%;
+  top: -4px;
+  width: 6px;
+  height: 10px;
+  border-left: 2px solid var(--ink-muted);
+  border-right: 2px solid var(--ink-muted);
+  background: var(--paper);
+}
+
+.demo-ladder-coil {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--ink-muted);
+  border-radius: 50%;
+}
+
+.demo-ladder-coil-fill {
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* dip-coat */
+.demo-dipcoat {
+  position: relative;
+  width: 100%;
+}
+
+.demo-dipcoat-arm {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.demo-dipcoat-rod {
+  width: 2px;
+  height: 12px;
+  background: var(--ink-muted);
+}
+
+.demo-dipcoat-sample {
+  width: 10px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.demo-dipcoat-baths {
+  display: flex;
+  width: 100%;
+  padding-top: 30px;
+}
+
+.demo-dipcoat-slot {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.demo-dipcoat-well {
+  position: relative;
+  width: 70%;
+  height: 18px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+
+.demo-dipcoat-liquid {
+  position: absolute;
+  inset: 40% 0 0 0;
+  background: var(--accent-soft);
+}
+
+.demo-formflow-beam {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-soft),
+    transparent
+  );
+  /* transient actor — not part of the final-state diagram */
+  opacity: 0;
+}
+
+@media print {
+  /* animated vignettes are screen-only — meaningless frozen on paper */
+  .demo-stage {
+    display: none;
+  }
+}
