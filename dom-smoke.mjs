@@ -46,6 +46,8 @@ const checks = viewId === 'timeline'
       'work and education mixed': html.includes('Senior Software Engineer') && html.includes('Academic Exchange'),
       'collapsible details': html.includes('DrizzleORM'),
       'demo stages in timeline': (html.match(/demo-stage/g) ?? []).length >= 10,
+      'contributions rendered apart from bullets': (html.match(/timeline-contribution/g) ?? []).length >= 15,
+      'dated side projects join the chronology': html.includes('Independent work'),
     }
   : {
       'renders name': html.includes('Ricardo Valero'),
@@ -58,6 +60,9 @@ const checks = viewId === 'timeline'
       'tech chips': html.includes('DrizzleORM') && html.includes('Elixir'),
       'demo stages in document (15 tagged)': (html.match(/demo-stage/g) ?? []).length >= 15,
       'demo archetypes render': html.includes('demo-rateshop') && html.includes('demo-pipeline') && html.includes('demo-terminal') && html.includes('demo-formflow') && html.includes('demo-dashboard'),
+      'every project shows a contribution (17)': (html.match(/document-contribution/g) ?? []).length === 17,
+      'contribution is not a bullet': !/<li[^>]*class="[^"]*contribution/.test(html),
+      'no em dashes in rendered content': !html.includes('—'),
     }
 let pass = true
 for (const [name, ok] of Object.entries(checks)) { console.log(ok ? '✓' : '✗', name); if (!ok) pass = false }

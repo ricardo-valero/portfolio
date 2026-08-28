@@ -1,13 +1,19 @@
 import { decodeResume } from "../schema/resume"
 
 // The only file to touch when career data changes. Decoded (and therefore
-// validated) at module load — invalid data fails the dev server/build loudly.
+// validated) at module load, and again by scripts/validate-data.mjs before the
+// bundle is written, so invalid data fails the dev server and the build.
+//
+// Every project carries a `contribution`: what was distinctly mine, as opposed
+// to what the project was. It is required, and the schema rejects two projects
+// that share one, because interchangeable entries are the failure it exists to
+// prevent.
 export const resume = decodeResume({
   name: "Ricardo Valero",
-  headline: "Software Engineer",
+  headline: "Senior Software Engineer",
   summary:
-    "I build typed, declarative systems — effects that declare their requirements and failures, schemas at every boundary, builds that reproduce anywhere — and I keep the tooling fast and light.",
-  // Public build: contact routes through GitHub and LinkedIn only — no phone
+    "I build typed, declarative systems: effects that declare their requirements and failures, schemas at every boundary, builds that reproduce anywhere. I work spec-first with coding agents, writing the specification and letting the implementation follow, and I keep the tooling fast and light.",
+  // Public build: contact routes through GitHub and LinkedIn only, no phone
   // or email, which are handed out deliberately rather than published.
   links: [
     {
@@ -32,9 +38,11 @@ export const resume = decodeResume({
           projects: [
             {
               name: "Multi-provider Shipping Platform",
+              contribution:
+                "I found the provider logic duplicated across three places, with business rules tangled into application code, and led the refactor that pulled them apart. Adding a carrier or fixing a broken one went from about two weeks to about a day. I review the work of the three engineers building in this codebase.",
               bullets: [
-                "Hardened provider integrations (FedEx, DHL, Estafeta): rate pricing and margins, label recovery flows, and error surfacing",
-                "Built and refined UI components across the product and fixed N+1 query performance issues",
+                "Provider integrations (FedEx, DHL, Estafeta): rate pricing and margins, label recovery flows, and error surfacing",
+                "UI components across the product, and N+1 query fixes on the slowest paths",
               ],
               tech: ["Ruby", "Rails", "PostgreSQL", "JavaScript"],
               demo: {
@@ -43,21 +51,34 @@ export const resume = decodeResume({
               },
             },
             {
-              name: "Integration Hub — Provider Shipment Service",
+              name: "Integration Hub: Provider Shipment Service",
+              contribution:
+                "Sole author. I shaped the public contract on Stripe's event envelope and idempotency keys, so consumer apps integrate once regardless of which carrier is behind the call, and made the pure/IO split structural: carrier modules declare no HTTP library, so the compiler refuses a network call from inside one.",
               bullets: [
-                "Designed and built solo a standalone service executing provider ship-quote/rate and label-generation calls for multiple consumer applications",
+                "Standalone service executing ship-quote, rate, and label-generation calls for multiple consumer applications, across eight carriers",
                 "Stateless on tenancy: provider credentials exchanged for encrypted session bearers, never persisted at rest",
+                "73 test files, with CI gating formatting, Credo, Dialyzer, and the suite on every push",
+                "Delivered spec-first: 47 specified changes in the first seven weeks",
               ],
-              tech: ["Elixir", "Phoenix"],
+              tech: [
+                "Elixir",
+                "Phoenix",
+                "PostgreSQL",
+                "Oban",
+                "OpenAPI",
+                "Nix",
+              ],
               demo: {
                 archetype: "pipeline",
                 labels: ["apps", "hub", "providers"],
               },
             },
             {
-              name: "Data Hub — Centralized Ingestion and Transformation",
+              name: "Data Hub: Centralized Ingestion and Transformation",
+              contribution:
+                "Earlier engineers had written the fragmented ETL off as debt to live with. I designed the replacement and ran the migration alone, and the engineers who joined afterwards were shipping against it inside a week.",
               bullets: [
-                "Built ingestion pipelines landing source systems into BigQuery with a SQLMesh transformation layer, as a data-stack monorepo",
+                "Ingestion pipelines landing source systems into BigQuery with a SQLMesh transformation layer, as a data-stack monorepo",
                 "Consolidated earlier fragmented ETL services (Airbyte, ad-hoc GCP jobs) into a single platform",
               ],
               tech: ["Python", "dlt", "SQLMesh", "BigQuery", "GCP", "Metabase"],
@@ -67,7 +88,9 @@ export const resume = decodeResume({
               },
             },
             {
-              name: "Invoice Data Ingestion — Spreadsheets to BigQuery",
+              name: "Invoice Data Ingestion: Spreadsheets to BigQuery",
+              contribution:
+                "I took the input nobody wants to own: invoices arriving as inconsistent multi-sheet workbooks, no two quite alike, and turned them into typed rows the downstream models could depend on.",
               bullets: [
                 "Transformed raw Excel, CSV, and spreadsheet invoice data into structured BigQuery ingestions with multi-sheet imports",
               ],
@@ -79,9 +102,11 @@ export const resume = decodeResume({
             },
             {
               name: "Infrastructure Tooling",
+              contribution:
+                "I made a flake.nix a requirement on every project in the company and moved our CI on both Bitbucket and GitHub to build through Nix, so a build behaves the same on a laptop as it does in CI.",
               bullets: [
                 "Built a Nix-managed CLI deploying a self-hosted PaaS (Dokploy) and compose services across AWS and GCP",
-                "Fleet management for company services — machines, DNS, secrets, and deploys — one VM per app",
+                "Fleet management for company services: machines, DNS, secrets, and deploys, one VM per app",
               ],
               tech: ["Nix", "NixOS", "Terraform", "AWS", "GCP", "Docker"],
               demo: {
@@ -103,10 +128,12 @@ export const resume = decodeResume({
           end: "2025-02",
           projects: [
             {
-              name: "SEO and Content Optimization Web Service for Improved Search Rankings (Write2Rank)",
+              name: "SEO and Content Optimization Web Service (Write2Rank)",
+              contribution:
+                "I owned the analysis path end to end, from the scoring APIs through the interface that had to explain a ranking suggestion well enough for a writer to act on it.",
               bullets: [
-                "Developed a full-stack web application for content analysis and ranking suggestions.",
-                "Designed and implemented scalable backend APIs and frontend interfaces.",
+                "Full-stack web application for content analysis and ranking suggestions",
+                "Backend APIs and frontend interfaces designed to scale with content volume",
               ],
               tech: [
                 "PHP",
@@ -123,10 +150,11 @@ export const resume = decodeResume({
             },
             {
               name: "CI/CD Pipeline Optimizations",
+              contribution:
+                "I brought reproducible builds into a pipeline that did not have them, so a green build stopped depending on which machine produced it, and cut build times through caching and container changes.",
               bullets: [
-                "Conducted experiments to improve build times and deployment processes.",
-                "Implemented reproducible builds to enhance reliability.",
-                "Optimized caching and container usage for faster CI/CD.",
+                "Experiments to improve build times and deployment processes",
+                "Reproducible builds, and caching and container usage tuned for faster CI/CD",
               ],
               tech: ["AWS", "GitLab CI", "Docker", "Nix"],
               demo: {
@@ -150,6 +178,8 @@ export const resume = decodeResume({
             {
               name: "Assembly Line Real-time Production Monitoring Web Application",
               client: "Polaris Inc.",
+              contribution:
+                "I built the view of the whole line: many live signal sources and APIs converging into one screen an operator could read at a glance while the line was running.",
               bullets: [
                 "Led design and architecture of UI/UX, tech stack, database, and APIs",
               ],
@@ -168,9 +198,34 @@ export const resume = decodeResume({
               },
             },
             {
-              name: "Vehicle Registration Hybrid Web and Mobile Application (Registegic)",
+              name: "Production Reporting Platform (SCADA/MES)",
+              client: "Polaris Inc.",
+              contribution:
+                "The reporting charts degraded as production history piled up. I redesigned the schema and the indexes behind them so the reports stayed usable as the data grew, normalized what the old system had flattened, and carried the migration out against live production data.",
               bullets: [
-                "Led design and architecture of UI/UX, tech stack, database, and APIs",
+                "Reporting and charting over accumulated assembly-line production data",
+                "SQL Server schema, index design, and normalization; migration performed on live data",
+                "Migrated the application from .NET Framework and EF6 to .NET Core and EF Core",
+              ],
+              tech: [
+                "C#",
+                ".NET Core",
+                ".NET Framework",
+                "EF Core",
+                "EntityFramework",
+                "MSSQL",
+              ],
+              demo: {
+                archetype: "dashboard",
+                labels: ["yield", "scrap", "history"],
+              },
+            },
+            {
+              name: "Vehicle Registration Hybrid Web and Mobile Application (Registegic)",
+              contribution:
+                "First hybrid web and mobile build in the company and my first mobile target, and I led three junior engineers through it.",
+              bullets: [
+                "Hybrid web and mobile delivery from a single codebase",
               ],
               tech: [
                 "AWS",
@@ -190,8 +245,10 @@ export const resume = decodeResume({
             {
               name: "Warehouse Repackaging Control Web Application",
               client: "Polaris Inc.",
+              contribution:
+                "I drove the serial hardware straight from Chrome over Web Serial, with readings streaming live into React, so the floor needed nothing installed on the machine to scan and repack.",
               bullets: [
-                "Led design and architecture of UI/UX, tech stack, database, and APIs",
+                "Scan, repack, and confirmation flow tied to floor hardware",
               ],
               tech: [
                 "TypeScript",
@@ -201,6 +258,7 @@ export const resume = decodeResume({
                 "Prisma",
                 "PostgreSQL",
                 "React",
+                "WebSerial",
               ],
               demo: {
                 archetype: "form-flow",
@@ -209,6 +267,8 @@ export const resume = decodeResume({
             },
             {
               name: "Hardware Integration for IoT",
+              contribution:
+                "I designed the adapter layer that let one API speak to serial devices, printers, tools, and sensors that each had their own protocol and none of which agreed on anything.",
               bullets: [
                 "Designed tech stack and APIs for serial adapters, printers, tools, and IoT sensors",
               ],
@@ -234,8 +294,10 @@ export const resume = decodeResume({
             {
               name: "Assembly Line Control Applications",
               client: "Polaris Inc.",
+              contribution:
+                "My first production systems: the code that pulled data off the tools on the line and made it something the plant could act on.",
               bullets: [
-                "Developed custom SCADA/MES, hardware integration, data collection, database design, and APIs",
+                "Custom SCADA/MES, hardware integration, data collection, database design, and APIs",
               ],
               tech: ["VBScript", "Indusoft", "REST", "OpenProtocol", "ODBC"],
               demo: {
@@ -246,9 +308,9 @@ export const resume = decodeResume({
             {
               name: "Work Shift Management Web Application",
               client: "Polaris Inc.",
-              bullets: [
-                "Developed a full-stack app, database design, and APIs",
-              ],
+              contribution:
+                "Where I learned .NET and SQL Server properly, by modelling crews and shifts that everything downstream then had to agree with.",
+              bullets: ["Full-stack application, database design, and APIs"],
               tech: ["C#", ".NET", "REST", "EntityFramework", "MSSQL", "React"],
               demo: {
                 archetype: "form-flow",
@@ -258,8 +320,10 @@ export const resume = decodeResume({
             {
               name: "Assembly Line Reporting Web Application",
               client: "Polaris Inc.",
+              contribution:
+                "My first reporting work: turning raw line output and downtime into the numbers supervisors actually ran the shift on.",
               bullets: [
-                "Developed a full-stack app, database design, and APIs",
+                "Shift and line output reporting over collected production data",
               ],
               tech: ["C#", ".NET", "REST", "EntityFramework", "MSSQL", "Razor"],
               demo: {
@@ -276,8 +340,10 @@ export const resume = decodeResume({
           projects: [
             {
               name: "Ladder-logic PLC Program Development",
+              contribution:
+                "Where I started: writing control logic that moved physical machinery, on hardware where a mistake stops a plant rather than a process.",
               bullets: [
-                "In charge of several ladder-logic PLC programs for industrial clients, on Honeywell and Rockwell controllers",
+                "Several ladder-logic PLC programs for industrial clients, on Honeywell and Rockwell controllers",
               ],
               tech: ["Ladder Logic", "Honeywell PLC", "Rockwell PLC"],
               demo: {
@@ -299,8 +365,10 @@ export const resume = decodeResume({
           projects: [
             {
               name: "Automated Dip-coating Control for SURMOF Deposition",
+              contribution:
+                "My first automation of an experiment: the timing program that made a deposition run repeatable, so results could be compared between runs rather than between operators.",
               bullets: [
-                "Programmed MATLAB timing control for a dip-coating machine in solar-cell research: immersion, hold, withdrawal, and transfer between liquid baths",
+                "MATLAB timing control for a dip-coating machine in solar-cell research: immersion, hold, withdrawal, and transfer between liquid baths",
                 "Optimized thin-film deposition for large-area SURMOF layers",
               ],
               tech: ["MATLAB"],
@@ -316,7 +384,7 @@ export const resume = decodeResume({
   ],
   sideProjects: [
     {
-      name: "Deplugger — Type-safe Workflow Platform",
+      name: "Deplugger: Type-safe Workflow Platform",
       url: "https://deplugger.com",
       bullets: [
         "Designed an op/workflow DSL where workflows are data: every op declares input/output schemas, so composed workflows are validated end-to-end at every step",
@@ -334,18 +402,32 @@ export const resume = decodeResume({
       ],
     },
     {
-      name: "Raggio — Schema Library for Elixir",
+      name: "Raggio: Schema Library for Elixir",
       url: "https://github.com/ricardo-valero/raggio_ex",
+      start: "2026-01",
       bullets: [
         "Port of Effect-TS Schema to Elixir: composable, bidirectional schemas for decoding, encoding, and validation with typed errors",
+        "Adopted in production as the domain schema layer of a company service, replacing a hand-rolled DSL",
       ],
       tech: ["Elixir"],
+    },
+    {
+      name: "Open-source Libraries for Roc and Effect",
+      url: "https://github.com/ricardo-valero/",
+      start: "2023-06",
+      end: "2024-09",
+      bullets: [
+        "Ecosystem libraries for the Roc language: parser combinators, JSON, Unicode, ANSI, GraphQL, PostgreSQL, common data structures, and an experimental VS Code extension",
+        "NES and Game Boy emulators written in pure Roc, as a test of the language under a demanding workload",
+        "Earlier work across the Effect TypeScript ecosystem: runtime and data-type experiments, a PostgreSQL layer, and an ESLint rule set",
+      ],
+      tech: ["Roc", "TypeScript", "Effect", "Nix"],
     },
   ],
   education: [
     {
       institution:
-        "Universidad Autónoma de Nuevo León (UANL) — Facultad de Ingeniería Mecánica y Eléctrica (FIME)",
+        "Universidad Autónoma de Nuevo León (UANL), Facultad de Ingeniería Mecánica y Eléctrica (FIME)",
       program: "Bachelor in Mechanical and Electrical Engineering",
       start: "2013-08",
       end: "2018-12",
@@ -362,11 +444,26 @@ export const resume = decodeResume({
   skills: [
     {
       category: "Languages",
-      items: ["TypeScript", "Python", "Ruby", "Elixir", "C#", "PHP", "SQL"],
+      items: ["TypeScript", "C#", "Python", "Ruby", "Elixir", "PHP", "SQL"],
+    },
+    {
+      category: "AI-Assisted Engineering",
+      items: [
+        "Spec-Driven Development",
+        "OpenSpec",
+        "Claude Code",
+        "opencode",
+        "Agent skill authoring",
+        "Structured prompts and specifications",
+        "Review of AI-generated code",
+      ],
     },
     {
       category: "Backend",
       items: [
+        ".NET",
+        "ASP.NET",
+        "EntityFramework",
         "Node.js",
         "Bun",
         "Deno",
@@ -378,18 +475,20 @@ export const resume = decodeResume({
         "Prisma",
         "Rails",
         "Phoenix",
-        ".NET",
-        "EntityFramework",
         "Laravel",
       ],
     },
     {
-      category: "Data",
-      items: ["dlt", "SQLMesh", "BigQuery", "Metabase"],
+      category: "Frontend",
+      items: ["React", "Next.js", "SolidJS", "Svelte", "WebAPIs", "WASM"],
     },
     {
-      category: "Frontend",
-      items: ["Next.js", "React", "SolidJS", "Svelte", "WebAPIs", "WASM"],
+      category: "Databases",
+      items: ["MSSQL", "PostgreSQL", "MariaDB", "SQLite"],
+    },
+    {
+      category: "Testing",
+      items: ["ExUnit", "Playwright", "happy-dom", "Credo", "Dialyzer"],
     },
     {
       category: "DevOps",
@@ -399,39 +498,31 @@ export const resume = decodeResume({
         "Docker",
         "Nix",
         "Terraform",
-        "GitLab CI",
         "GitHub Actions",
+        "GitLab CI",
+        "Bitbucket Pipelines",
       ],
     },
     {
-      category: "Databases",
-      items: ["PostgreSQL", "MariaDB", "MSSQL", "SQLite"],
+      category: "Data",
+      items: ["dlt", "SQLMesh", "BigQuery", "Metabase"],
     },
     {
       category: "Protocols",
       items: [
-        "SSH",
-        "HTTP",
-        "WebSockets",
         "REST",
         "GraphQL",
         "gRPC",
+        "HTTP",
+        "WebSockets",
+        "SSH",
         "OpenProtocol",
         "ODBC",
       ],
     },
     {
       category: "Daily Drivers",
-      items: [
-        "macOS",
-        "Ghostty",
-        "Zed",
-        "Claude Code",
-        "opencode",
-        "Nix",
-        "direnv",
-        "OpenSpec",
-      ],
+      items: ["macOS", "Ghostty", "Zed", "Nix", "direnv"],
     },
   ],
   languages: [

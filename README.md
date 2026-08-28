@@ -13,7 +13,15 @@ structure is the point:
 - **One source of truth.** `src/data/resume.ts` is the only file that changes
   when career data changes. It is decoded at module load by an
   [Effect Schema](https://effect.website) in `src/schema/resume.ts`, so invalid
-  data fails the dev server and the build loudly instead of rendering wrong.
+  data fails the dev server instead of rendering wrong. `vite build` never
+  executes app code, so the build gets its own check: `npm run validate` loads
+  the data module through Vite and lets the decode throw, and `npm run build`
+  runs it before bundling so bad data cannot reach `dist/`.
+- **Every project states a contribution.** `contribution` is a required field
+  distinct from `bullets`: what was mine, as opposed to what the project was.
+  The schema rejects a résumé where two projects share one, or where a
+  contribution merely restates a bullet of its own project, because
+  interchangeable entries are the failure the field exists to prevent.
 - **Views are a registry, not a routing table.** Adding a view is one module
   plus one entry in `src/views/registry.ts`. The shell, the switcher, and the
   hash router all read from that list.
@@ -49,12 +57,23 @@ SolidJS · Vite · TypeScript · Effect Schema · Motion One · Playwright
 
 ```bash
 npm install
-npm run dev      # dev server
-npm run build    # tsc -b && vite build
-npm run preview  # serve dist/ at http://localhost:4173/portfolio/
-npm run pdf      # regenerate public/ricardo-valero-cv.pdf from the built site
-npm run smoke    # happy-dom checks: document, timeline, rapid view switching
+npm run dev       # dev server
+npm run validate  # decode src/data/resume.ts and report schema errors
+npm run build     # tsc -b && validate && vite build
+npm run preview   # serve dist/ at http://localhost:4173/portfolio/
+npm run pdf       # regenerate public/ricardo-valero-cv.pdf from the built site
+npm run smoke     # happy-dom checks: document, timeline, rapid view switching
 ```
+
+A `flake.nix` provides Node and the Playwright browsers the PDF script needs.
+With [direnv](https://direnv.net) the shell loads on `cd`; otherwise:
+
+```bash
+nix develop            # or: direnv allow, once
+```
+
+The flake is a convenience, not a requirement: `npm run build` works fine
+against any Node 22.
 
 `npm run pdf` requires a prior `npm run build`. `verify-browser.mjs` runs
 deeper Playwright checks against a running preview server.

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && node scripts/validate-data.mjs && vite build",
+    "validate": "node scripts/validate-data.mjs",
     "preview": "vite preview",
     "pdf": "node scripts/generate-pdf.mjs",
     "smoke": "node dom-smoke.mjs document && node dom-smoke.mjs timeline && node dom-smoke.mjs rapid"
