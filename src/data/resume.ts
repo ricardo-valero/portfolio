@@ -211,6 +211,8 @@ export const resume = decodeResume({
                 "C#",
                 ".NET Core",
                 ".NET Framework",
+                "ASP.NET MVC",
+                "Razor",
                 "EF Core",
                 "EntityFramework",
                 "MSSQL",
@@ -386,6 +388,7 @@ export const resume = decodeResume({
     {
       name: "Deplugger: Type-safe Workflow Platform",
       url: "https://deplugger.com",
+      start: "2025-11",
       bullets: [
         "Designed an op/workflow DSL where workflows are data: every op declares input/output schemas, so composed workflows are validated end-to-end at every step",
         "Built a dual-target compiler: the same workflow runs as an ephemeral effect or compiles to a durable, replay-safe workflow with activity semantics",
@@ -415,13 +418,13 @@ export const resume = decodeResume({
       name: "Open-source Libraries for Roc and Effect",
       url: "https://github.com/ricardo-valero/",
       start: "2023-06",
-      end: "2024-09",
       bullets: [
         "Ecosystem libraries for the Roc language: parser combinators, JSON, Unicode, ANSI, GraphQL, PostgreSQL, common data structures, and an experimental VS Code extension",
-        "NES and Game Boy emulators written in pure Roc, as a test of the language under a demanding workload",
+        "A browser platform for framebuffer apps targeting wasm32, with a Zig host and WebGPU",
+        "NES, Game Boy, and PlayStation 1 emulators written in pure Roc, as a test of the language under a demanding workload; the R3000A core passes all 55,000 SingleStepTests cases",
         "Earlier work across the Effect TypeScript ecosystem: runtime and data-type experiments, a PostgreSQL layer, and an ESLint rule set",
       ],
-      tech: ["Roc", "TypeScript", "Effect", "Nix"],
+      tech: ["Roc", "TypeScript", "Effect", "Zig", "WASM", "WebGPU", "Nix"],
     },
   ],
   education: [
