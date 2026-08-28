@@ -52,6 +52,9 @@ export const DocumentView: Component<{ resume: Resume }> = (props) => {
                               )}
                             </Show>
                           </p>
+                          <p class="document-contribution">
+                            {project.contribution}
+                          </p>
                           <ul>
                             <For each={project.bullets}>
                               {(bullet) => <li>{bullet}</li>}
