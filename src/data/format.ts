@@ -4,6 +4,6 @@ export const formatYearMonth = (ym: string): string => {
   return `${month}.${year}`
 }
 
-/** Absent end = ongoing role. */
+/** Absent end = ongoing role. Arrow rather than a dash, by author preference. */
 export const formatRange = (start: string, end?: string): string =>
-  `${formatYearMonth(start)} – ${end ? formatYearMonth(end) : "Present"}`
+  `${formatYearMonth(start)} → ${end ? formatYearMonth(end) : "Present"}`
